@@ -1,0 +1,35 @@
+from datetime import datetime, timedelta
+
+def is_business_day(day):
+    return day.weekday() < 5
+
+def calculate_target_date(business_days):
+    current_datetime = datetime.now()
+    business_days_count = 0  
+
+    while business_days_count < business_days:
+        current_datetime += timedelta(days=1) 
+        if is_business_day(current_datetime):  
+            business_days_count += 1
+
+    return current_datetime
+
+def calculate_time_remaining(target_datetime):
+    current_datetime = datetime.now()
+    time_difference = target_datetime - current_datetime
+
+    days_remaining = time_difference.days
+    hours_remaining = time_difference.seconds // 3600
+    minutes_remaining = (time_difference.seconds % 3600) // 60
+
+    return days_remaining, hours_remaining, minutes_remaining
+
+business_days_to_add = 2  # Change this to the number of business days you want to add
+target_date = calculate_target_date(business_days_to_add)
+
+# Calculate remaining time
+days_remaining, hours_remaining, minutes_remaining = calculate_time_remaining(target_date)
+
+print(f"Today's date and time: {datetime.now()}")
+print(f"After {business_days_to_add} business days, the date will be: {target_date}")
+print(f"Remaining time: {days_remaining} days, {hours_remaining} hours, and {minutes_remaining} minutes")
